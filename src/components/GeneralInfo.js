@@ -7,41 +7,60 @@ class GeneralInfo extends Component {
   }
 
   render() {
-    const { handleChange, onSubmit, name, email, phone } = this.props;
-    return (
-      <form
-        id="general-form"
-        className="form"
-        onChange={handleChange}
-        onSubmit={onSubmit}
-      >
+    const { handleChange, onSubmit, onClick, name, email, phone, isEditing } =
+      this.props;
+    if (isEditing) {
+      return (
+        <form
+          id="general-form"
+          className="form"
+          onChange={handleChange}
+          onSubmit={onSubmit}
+        >
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              name="name"
+              type="text"
+              onChange={handleChange}
+              value={name}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              name="email"
+              type="email"
+              onChange={handleChange}
+              value={email}
+            />
+          </div>
+          <div>
+            <label htmlFor="phone">Phone Number:</label>
+            <input
+              name="phone"
+              type="tel"
+              onChange={handleChange}
+              value={phone}
+            />
+          </div>
+          <button type="submit" id="submit-general">
+            Submit
+          </button>
+        </form>
+      );
+    } else {
+      return (
         <div>
-          <label htmlFor="name">Name:</label>
-          <input name="name" type="text" onChange={handleChange} value={name} />
+          <h1>Name: {name}</h1>
+          <h2>Email: {email}</h2>
+          <h2>Phone Number: {phone}</h2>
+          <button id="general-edit" onClick={onClick}>
+            Edit General Info
+          </button>
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={email}
-          />
-        </div>
-        <div>
-          <label htmlFor="phone">Phone Number:</label>
-          <input
-            name="phone"
-            type="tel"
-            onChange={handleChange}
-            value={phone}
-          />
-        </div>
-        <button type="submit" id="submit-general">
-          Submit
-        </button>
-      </form>
-    );
+      );
+    }
   }
 }
 

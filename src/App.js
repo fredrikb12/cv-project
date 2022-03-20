@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Education from "./components/Education";
 import GeneralInfo from "./components/GeneralInfo";
+import uniqid from "uniqid";
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class App extends Component {
           school: "",
           program: "",
           date: "",
+          id: uniqid(),
         },
         items: [],
       },
@@ -33,6 +35,9 @@ class App extends Component {
     this.handleGeneralChange = this.handleGeneralChange.bind(this);
     this.handleEducationChange = this.handleEducationChange.bind(this);
     this.handleExperienceChange = this.handleExperienceChange.bind(this);
+
+    this.onEditClick = this.onEditClick.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
   onEditClick = (e) => {
@@ -45,6 +50,19 @@ class App extends Component {
     }
   };
 
+  onDeleteClick = (e, id) => {
+    if (e.target.classList.contains("education-delete-button")) {
+      const filtered = this.state.education.items.filter(
+        (item) => item.id !== id
+      );
+      const emptyItem = { school: "", program: "", date: "", id: uniqid() };
+      this.setState({ education: { items: filtered, item: emptyItem } });
+      this.setState({ isEditingEdu: false });
+    }
+    if (e.target.classList.contains("experience-delete-button")) {
+    }
+  };
+
   onSubmitGeneral = (e) => {
     e.preventDefault();
 
@@ -54,7 +72,7 @@ class App extends Component {
   onSubmitEducation = (e) => {
     e.preventDefault();
     const edu = this.state.education;
-    const emptyItem = { school: "", program: "", date: "" };
+    const emptyItem = { school: "", program: "", date: "", id: uniqid() };
     const items = [...edu.items, edu.item];
     this.setState({ education: { items: items, item: emptyItem } });
     this.setState({ isEditingEdu: false });
@@ -95,6 +113,7 @@ class App extends Component {
         <GeneralInfo
           handleChange={this.handleGeneralChange}
           onSubmit={this.onSubmitGeneral}
+          onClick={this.onEditClick}
           name={this.state.general.name}
           email={this.state.general.email}
           phone={this.state.general.phone}
@@ -107,6 +126,9 @@ class App extends Component {
           program={this.state.education.item.program}
           date={this.state.education.item.date}
           isEditing={isEditingEdu}
+          items={this.state.education.items}
+          onEditClick={this.onEditClick}
+          onDeleteClick={this.onDeleteClick}
         />
       </div>
     );

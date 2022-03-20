@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Education from "./components/Education";
 import GeneralInfo from "./components/GeneralInfo";
 
 class App extends Component {
@@ -9,10 +10,20 @@ class App extends Component {
       general: {
         name: "",
         email: "",
-        number: "",
+        phone: "",
       },
-      education: {},
+      education: {
+        item: {
+          school: "",
+          program: "",
+          date: "",
+        },
+        items: [],
+      },
       experience: {},
+      isEditingGen: false,
+      isEditingEdu: false,
+      isEditingExp: false,
     };
 
     this.onSubmitGeneral = this.onSubmitGeneral.bind(this);
@@ -24,11 +35,36 @@ class App extends Component {
     this.handleExperienceChange = this.handleExperienceChange.bind(this);
   }
 
-  onSubmitGeneral = (e) => {};
+  onEditClick = (e) => {
+    if (e.target.id === "general-edit") {
+      this.setState({ isEditingGen: true });
+    } else if (e.target.id === "education-edit") {
+      this.setState({ isEditingEdu: true });
+    } else if (e.target.id === "experience-edit") {
+      this.setState({ isEditingExp: true });
+    }
+  };
 
-  onSubmitEducation = (e) => {};
+  onSubmitGeneral = (e) => {
+    e.preventDefault();
 
-  onSubmitExperience = (e) => {};
+    this.setState({ isEditingGen: false });
+  };
+
+  onSubmitEducation = (e) => {
+    e.preventDefault();
+    const edu = this.state.education;
+    const emptyItem = { school: "", program: "", date: "" };
+    const items = [...edu.items, edu.item];
+    this.setState({ education: { items: items, item: emptyItem } });
+    this.setState({ isEditingEdu: false });
+  };
+
+  onSubmitExperience = (e) => {
+    e.preventDefault();
+
+    this.setState({ isEditingExp: false });
+  };
 
   handleGeneralChange = (e) => {
     const value = e.target.value;
@@ -37,25 +73,40 @@ class App extends Component {
     current[name] = value;
 
     this.setState({ general: current });
-    console.log(this.state.general);
   };
 
   handleEducationChange = (e) => {
     const value = e.target.value;
     const name = e.target.name;
+    const current = { ...this.state.education };
+    current.item[name] = value;
 
-    this.setState({ item: { [name]: value } });
-    console.log(this.state.education.item);
+    this.setState({ education: current });
+    console.log(this.state.education);
   };
 
   handleExperienceChange = (e) => {};
 
   render() {
+    const { isEditingGen, isEditingEdu, isEditingExp } = this.state;
+
     return (
       <div>
         <GeneralInfo
           handleChange={this.handleGeneralChange}
           onSubmit={this.onSubmitGeneral}
+          name={this.state.general.name}
+          email={this.state.general.email}
+          phone={this.state.general.phone}
+          isEditing={isEditingGen}
+        />
+        <Education
+          handleChange={this.handleEducationChange}
+          onSubmit={this.onSubmitEducation}
+          school={this.state.education.item.school}
+          program={this.state.education.item.program}
+          date={this.state.education.item.date}
+          isEditing={isEditingEdu}
         />
       </div>
     );

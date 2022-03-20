@@ -7,27 +7,40 @@ class GeneralInfo extends Component {
   }
 
   render() {
+    const { handleChange, onSubmit, name, email, phone } = this.props;
     return (
-      <div>
-        <form>
-          <label>
-            Name:
-            <input name="name" type="text" onChange={this.props.handleChange} />
-          </label>
-          <label>
-            Email:
-            <input
-              name="email"
-              type="email"
-              onChange={this.props.handleChange}
-            />
-          </label>
-          <label>
-            Phone Number:
-            <input name="phone" type="tel" onChange={this.props.handleChange} />
-          </label>
-        </form>
-      </div>
+      <form
+        id="general-form"
+        className="form"
+        onChange={handleChange}
+        onSubmit={onSubmit}
+      >
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input name="name" type="text" onChange={handleChange} value={name} />
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={email}
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">Phone Number:</label>
+          <input
+            name="phone"
+            type="tel"
+            onChange={handleChange}
+            value={phone}
+          />
+        </div>
+        <button type="submit" id="submit-general">
+          Submit
+        </button>
+      </form>
     );
   }
 }

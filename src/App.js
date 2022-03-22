@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Education from "./components/Education";
 import GeneralInfo from "./components/GeneralInfo";
 import uniqid from "uniqid";
+import EducationAdd from "./components/EducationAdd";
 
 class App extends Component {
   constructor(props) {
@@ -14,11 +15,17 @@ class App extends Component {
         phone: "",
       },
       education: {
-        item: {
+        addItem: {
           school: "",
           program: "",
           date: "",
           id: uniqid(),
+        },
+        editItem: {
+          school: "",
+          program: "",
+          date: "",
+          id: "",
         },
         items: [],
       },
@@ -26,6 +33,8 @@ class App extends Component {
       isEditingGen: false,
       isEditingEdu: false,
       isEditingExp: false,
+      isAddingEdu: false,
+      isAddingExp: false,
     };
 
     this.onSubmitGeneral = this.onSubmitGeneral.bind(this);
@@ -36,53 +45,54 @@ class App extends Component {
     this.handleEducationChange = this.handleEducationChange.bind(this);
     this.handleExperienceChange = this.handleExperienceChange.bind(this);
 
+    this.onAddClick = this.onAddClick.bind(this);
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
-  onEditClick = (e) => {
-    if (e.target.id === "general-edit") {
-      this.setState({ isEditingGen: true });
-    } else if (e.target.id === "education-edit") {
-      this.setState({ isEditingEdu: true });
-    } else if (e.target.id === "experience-edit") {
-      this.setState({ isEditingExp: true });
+  onAddClick = (e) => {
+    if (e.target.id === "education-add") {
+      this.setState({ isAddingEdu: true });
     }
   };
 
-  onDeleteClick = (e, id) => {
-    if (e.target.classList.contains("education-delete-button")) {
-      const filtered = this.state.education.items.filter(
+  onEditClick = (e, id) => {
+    if (e.target.id === "general-edit") {
+      this.setState({ isEditingGen: true });
+    }
+  };
+
+  onDeleteClick = (e, id, section) => {
+    if (section === "education") {
+      const current = { ...this.state.education };
+      const filteredItems = this.state.education.items.filter(
         (item) => item.id !== id
       );
-      const emptyItem = { school: "", program: "", date: "", id: uniqid() };
-      this.setState({ education: { items: filtered, item: emptyItem } });
-      this.setState({ isEditingEdu: false });
-    }
-    if (e.target.classList.contains("experience-delete-button")) {
+      console.log(filteredItems);
+      current.items = filteredItems;
+      this.setState({ education: current });
     }
   };
 
   onSubmitGeneral = (e) => {
     e.preventDefault();
-
+    const value = this.state.general;
     this.setState({ isEditingGen: false });
+    this.setState({ general: value });
   };
 
   onSubmitEducation = (e) => {
     e.preventDefault();
-    const edu = this.state.education;
+    const current = { ...this.state.education };
+    const addItem = { ...current.addItem };
+    current.items = [...current.items, { ...addItem }];
     const emptyItem = { school: "", program: "", date: "", id: uniqid() };
-    const items = [...edu.items, edu.item];
-    this.setState({ education: { items: items, item: emptyItem } });
-    this.setState({ isEditingEdu: false });
+    current.addItem = emptyItem;
+    this.setState({ education: current });
+    this.setState({ isAddingEdu: false });
   };
 
-  onSubmitExperience = (e) => {
-    e.preventDefault();
-
-    this.setState({ isEditingExp: false });
-  };
+  onSubmitExperience = (e) => {};
 
   handleGeneralChange = (e) => {
     const value = e.target.value;
@@ -94,20 +104,18 @@ class App extends Component {
   };
 
   handleEducationChange = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    const current = { ...this.state.education };
-    current.item[name] = value;
-
-    this.setState({ education: current });
-    console.log(this.state.education);
+    if (e.target.classList.contains("education-add-input")) {
+      const value = e.target.value;
+      const name = e.target.name;
+      const current = { ...this.state.education };
+      current.addItem[name] = value;
+      this.setState({ education: current });
+    }
   };
 
   handleExperienceChange = (e) => {};
 
   render() {
-    const { isEditingGen, isEditingEdu, isEditingExp } = this.state;
-
     return (
       <div>
         <GeneralInfo
@@ -117,18 +125,22 @@ class App extends Component {
           name={this.state.general.name}
           email={this.state.general.email}
           phone={this.state.general.phone}
-          isEditing={isEditingGen}
+          isEditing={this.state.isEditingGen}
         />
         <Education
-          handleChange={this.handleEducationChange}
-          onSubmit={this.onSubmitEducation}
-          school={this.state.education.item.school}
-          program={this.state.education.item.program}
-          date={this.state.education.item.date}
-          isEditing={isEditingEdu}
           items={this.state.education.items}
-          onEditClick={this.onEditClick}
+          editItem={this.state.education.editItem}
+          isEditing={this.state.isEditingEdu}
           onDeleteClick={this.onDeleteClick}
+        />
+        <EducationAdd
+          isAdding={this.state.isAddingEdu}
+          onSubmit={this.onSubmitEducation}
+          onAddClick={this.onAddClick}
+          handleChange={this.handleEducationChange}
+          school={this.state.education.addItem.school}
+          program={this.state.education.addItem.program}
+          date={this.state.education.addItem.date}
         />
       </div>
     );

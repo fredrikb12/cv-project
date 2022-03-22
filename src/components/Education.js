@@ -7,84 +7,34 @@ class Education extends Component {
   }
 
   render() {
-    const {
-      school,
-      program,
-      date,
-      handleChange,
-      onSubmit,
-      onEditClick,
-      onDeleteClick,
-      isEditing,
-      items,
-    } = this.props;
-
-    const allItems = items.map((item) => {
-      return (
-        <div key={item.id}>
-          <h2>School: {item.school}</h2>
-          <h2>Program: {item.program}</h2>
-          <h2>Date: {item.date}</h2>
-          <button
-            className="education-delete-button"
-            onClick={(e) => onDeleteClick(e, item.id)}
-          >
-            Delete
-          </button>
-        </div>
-      );
-    });
-
-    if (isEditing) {
-      return (
-        <form id="education-form" onSubmit={onSubmit}>
-          <div>
-            <label htmlFor="school">School:</label>
-            <input
-              type="text"
-              name="school"
-              value={school}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="program">Program:</label>
-            <input
-              type="text"
-              name="program"
-              value={program}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="date">Date:</label>
-            <input
-              type="text"
-              name="date"
-              value={date}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit" id="submit-education">
-            Submit
-          </button>
-        </form>
-      );
-    } else {
-      if (allItems.length < 1) {
+    const { items, editItem, isEditing, onDeleteClick } = this.props;
+    console.log(items);
+    if (items.length > 0) {
+      const itemsToRender = items.map((item) => {
+        if (!item) return null;
+        if (item.id === editItem.id) return null;
         return (
-          <div>
-            <h2>School: {school}</h2>
-            <h2>Program: {program}</h2>
-            <h2>Date: {date}</h2>
-            <button id="education-edit" onClick={(e) => onEditClick(e)}>
-              Add Education
-            </button>
+          <div
+            key={item.id}
+            style={{ borderBottom: "1px solid black", marginBottom: "20px" }}
+          >
+            <h2>{item.school}</h2>
+            <h2>{item.program}</h2>
+            <h2>{item.date}</h2>
+            <button onClick={(e) => onDeleteClick(e, item.id, "education")}>Delete</button>
           </div>
         );
-      }
-      return allItems;
+      });
+      return (
+        <div>
+          <h1 style={{ borderBottom: "1px solid black", width: "400px" }}>
+            Education
+          </h1>
+          {itemsToRender}
+        </div>
+      );
     }
+    return null;
   }
 }
 

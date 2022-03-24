@@ -7,9 +7,8 @@ class Education extends Component {
   }
 
   render() {
-    const { items, editItem, isEditing, onDeleteClick } = this.props;
-    console.log(items);
-    if (items.length > 0) {
+    const { items, editItem, onDeleteClick, onEditClick } = this.props;
+    if (items.length > 0 && items[0].id !== editItem.id) {
       const itemsToRender = items.map((item) => {
         if (!item) return null;
         if (item.id === editItem.id) return null;
@@ -19,22 +18,42 @@ class Education extends Component {
             style={{ borderBottom: "1px solid black", marginBottom: "20px" }}
           >
             <h2>{item.school}</h2>
-            <h2>{item.program}</h2>
-            <h2>{item.date}</h2>
-            <button onClick={(e) => onDeleteClick(e, item.id, "education")}>Delete</button>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <h3>{item.program}</h3>
+              <h5 style={{ color: "grey" }}>{item.date}</h5>
+            </div>
+            <button onClick={(e) => onDeleteClick(e, item.id, "education")}>
+              Delete
+            </button>
+            <button onClick={(e) => onEditClick(e, item.id, "education-edit")}>
+              Edit{" "}
+              {item.school.length > 15 ? item.school.slice(0, 15) + "..." : item.school}
+            </button>
           </div>
         );
       });
       return (
         <div>
-          <h1 style={{ borderBottom: "1px solid black", width: "400px" }}>
+          <h1
+            className="section-header"
+            style={{ borderBottom: "1px solid black", width: "400px" }}
+          >
             Education
           </h1>
           {itemsToRender}
         </div>
       );
     }
-    return null;
+    return (
+      <div>
+        <h1
+          className="section-header"
+          style={{ borderBottom: "1px solid black", width: "400px" }}
+        >
+          Education
+        </h1>
+      </div>
+    );
   }
 }
 

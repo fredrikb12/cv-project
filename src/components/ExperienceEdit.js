@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
 
-class EducationEdit extends Component {
+class ExperienceEdit extends Component {
   constructor(props) {
     super(props);
   }
@@ -13,27 +13,36 @@ class EducationEdit extends Component {
       isEditing === true ? (
         <form>
           <label>
-            School:
+            Company:
             <input
-              className="education-edit-input"
-              name="school"
-              value={editItem.school}
+              className="experience-edit-input"
+              name="company"
+              value={editItem.company}
               onChange={handleChange}
             />
           </label>
           <label>
-            Program:
+            Position:
             <input
-              className="education-edit-input"
-              name="program"
-              value={editItem.program}
+              className="experience-edit-input"
+              name="position"
+              value={editItem.position}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Tasks:
+            <input
+              className="experience-edit-input"
+              name="tasks"
+              value={editItem.tasks}
               onChange={handleChange}
             />
           </label>
           <label>
             Date:
             <input
-              className="education-edit-input"
+              className="experience-edit-input"
               name="date"
               value={editItem.date}
               onChange={handleChange}
@@ -41,8 +50,8 @@ class EducationEdit extends Component {
           </label>
           <div>
             <button
-              id="education-edit-submit-button"
-              onClick={(e) => onSubmit(e, editItem.id, "education-edit")}
+              id="experience-edit-submit-button"
+              onClick={(e) => onSubmit(e, editItem.id, "experience-edit")}
             >
               Finish Editing
             </button>
@@ -54,4 +63,4 @@ class EducationEdit extends Component {
   }
 }
 
-export default EducationEdit;
+export default ExperienceEdit;

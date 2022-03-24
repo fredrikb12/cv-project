@@ -51,11 +51,14 @@ class GeneralInfo extends Component {
       );
     } else {
       return (
-        <div>
-          <h1>Name: {name}</h1>
-          <h2>Email: {email}</h2>
-          <h2>Phone Number: {phone}</h2>
-          <button id="general-edit" onClick={onClick}>
+        <div className="general-info">
+          <h1 className="section-header">Name: {name}</h1>
+          <h2 className="section-subheader">Email: {email}</h2>
+          <h2 className="section-subheader">Phone Number: {phone}</h2>
+          <button
+            id="general-edit"
+            onClick={(e) => onClick(e, null, "general-edit")}
+          >
             Edit General Info
           </button>
         </div>

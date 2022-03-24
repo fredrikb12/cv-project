@@ -57,7 +57,7 @@ class EducationAdd extends Component {
         <button
           type="submit"
           id="education-submit"
-          onClick={(e) => onSubmit(e)}
+          onClick={(e) => onSubmit(e, null, "education-submit")}
         >
           Submit
         </button>

@@ -3,6 +3,10 @@ import Education from "./components/Education";
 import GeneralInfo from "./components/GeneralInfo";
 import uniqid from "uniqid";
 import EducationAdd from "./components/EducationAdd";
+import EducationEdit from "./components/EducationEdit";
+import Experience from "./components/Experience";
+import ExperienceEdit from "./components/ExperienceEdit";
+import ExperienceAdd from "./components/ExperienceAdd";
 
 class App extends Component {
   constructor(props) {
@@ -29,7 +33,23 @@ class App extends Component {
         },
         items: [],
       },
-      experience: {},
+      experience: {
+        addItem: {
+          company: "",
+          position: "",
+          tasks: "",
+          date: "",
+          id: uniqid(),
+        },
+        editItem: {
+          company: "",
+          position: "",
+          tasks: "",
+          date: "",
+          id: "",
+        },
+        items: [],
+      },
       isEditingGen: false,
       isEditingEdu: false,
       isEditingExp: false,
@@ -54,11 +74,23 @@ class App extends Component {
     if (e.target.id === "education-add") {
       this.setState({ isAddingEdu: true });
     }
+    if (e.target.id === "experience-add") {
+      this.setState({ isAddingExp: true });
+    }
   };
 
-  onEditClick = (e, id) => {
-    if (e.target.id === "general-edit") {
+  onEditClick = (e, id, type) => {
+    if (type === "general-edit") {
       this.setState({ isEditingGen: true });
+    }
+    if (type === "education-edit") {
+      const editedItem = this.state.education.items.find(
+        (item) => item.id === id
+      );
+      const current = { ...this.state.education };
+      current.editItem = { ...editedItem };
+      this.setState({ isEditingEdu: true });
+      this.setState({ education: current });
     }
   };
 
@@ -68,9 +100,10 @@ class App extends Component {
       const filteredItems = this.state.education.items.filter(
         (item) => item.id !== id
       );
-      console.log(filteredItems);
       current.items = filteredItems;
       this.setState({ education: current });
+    }
+    if (section === "experience") {
     }
   };
 
@@ -81,18 +114,70 @@ class App extends Component {
     this.setState({ general: value });
   };
 
-  onSubmitEducation = (e) => {
+  onSubmitEducation = (e, id, type) => {
     e.preventDefault();
-    const current = { ...this.state.education };
-    const addItem = { ...current.addItem };
-    current.items = [...current.items, { ...addItem }];
-    const emptyItem = { school: "", program: "", date: "", id: uniqid() };
-    current.addItem = emptyItem;
-    this.setState({ education: current });
-    this.setState({ isAddingEdu: false });
+    if (type === "education-edit") {
+      const emptyItem = { school: "", program: "", date: "", id: "" };
+      const current = { ...this.state.education };
+      const editedItem = { ...current.editItem };
+      current.editItem = emptyItem;
+      const foundIndex = current.items.findIndex(
+        (item) => item.id === editedItem.id
+      );
+      current.items[foundIndex] = editedItem;
+      this.setState({ education: current });
+      this.setState({ isEditingEdu: false });
+    }
+    if (type === "education-submit") {
+      const current = { ...this.state.education };
+      const addItem = { ...current.addItem };
+      current.items = [...current.items, { ...addItem }];
+      const emptyItem = { school: "", program: "", date: "", id: uniqid() };
+      current.addItem = emptyItem;
+      this.setState({ education: current });
+      this.setState({ isAddingEdu: false });
+      this.setState({ isEditingEdu: false });
+    }
   };
 
-  onSubmitExperience = (e) => {};
+  onSubmitExperience = (e, id, type) => {
+    e.preventDefault();
+    if (type === "experience-edit") {
+      const current = { ...this.state.experience };
+      const emptyItem = {
+        company: "",
+        position: "",
+        tasks: "",
+        date: "",
+        id: "",
+      };
+      const editedItem = { ...current.editItem };
+      current.editItem = emptyItem;
+      const foundIndex = current.items.findIndex(
+        (item) => item.id === editedItem.id
+      );
+      current.items[foundIndex] = editedItem;
+
+      this.setState({ experience: current });
+      this.setState({ isEditingExp: false });
+    }
+    if (type === "experience-submit") {
+      const current = { ...this.state.experience };
+      const addItem = { ...current.addItem };
+      current.items = [...current.items, { ...addItem }];
+      const emptyItem = {
+        company: "",
+        position: "",
+        tasks: "",
+        date: "",
+        id: uniqid(),
+      };
+      current.addItem = emptyItem;
+      this.setState({ experience: current });
+      this.setState({ isAddingExp: false });
+      this.setState({ isEditingExp: false });
+    }
+  };
 
   handleGeneralChange = (e) => {
     const value = e.target.value;
@@ -110,14 +195,35 @@ class App extends Component {
       const current = { ...this.state.education };
       current.addItem[name] = value;
       this.setState({ education: current });
+    } else if (e.target.classList.contains("education-edit-input")) {
+      const value = e.target.value;
+      const name = e.target.name;
+      const current = { ...this.state.education };
+      current.editItem[name] = value;
+      this.setState({ education: current });
     }
   };
 
-  handleExperienceChange = (e) => {};
+  handleExperienceChange = (e) => {
+    if (e.target.classList.contains("experience-add-input")) {
+      const value = e.target.value;
+      const name = e.target.name;
+      const current = { ...this.state.experience };
+      current.addItem[name] = value;
+      this.setState({ experience: current });
+    }
+    if (e.target.classList.contains("experience-edit-input")) {
+      const value = e.target.value;
+      const name = e.target.name;
+      const current = { ...this.state.experience };
+      current.editItem[name] = value;
+      this.setState({ experience: current });
+    }
+  };
 
   render() {
     return (
-      <div>
+      <div id="main-container">
         <GeneralInfo
           handleChange={this.handleGeneralChange}
           onSubmit={this.onSubmitGeneral}
@@ -130,8 +236,15 @@ class App extends Component {
         <Education
           items={this.state.education.items}
           editItem={this.state.education.editItem}
-          isEditing={this.state.isEditingEdu}
           onDeleteClick={this.onDeleteClick}
+          onEditClick={this.onEditClick}
+        />
+
+        <EducationEdit
+          editItem={this.state.education.editItem}
+          isEditing={this.state.isEditingEdu}
+          onSubmit={this.onSubmitEducation}
+          handleChange={this.handleEducationChange}
         />
         <EducationAdd
           isAdding={this.state.isAddingEdu}
@@ -141,6 +254,28 @@ class App extends Component {
           school={this.state.education.addItem.school}
           program={this.state.education.addItem.program}
           date={this.state.education.addItem.date}
+        />
+        <Experience
+          items={this.state.experience.items}
+          editItem={this.state.experience.editItem}
+          onDeleteClick={this.onDeleteClick}
+          onEditClick={this.onEditClick}
+        />
+        <ExperienceEdit
+          editItem={this.state.experience.editItem}
+          isEditing={this.state.isEditingExp}
+          onSubmit={this.onSubmitExperience}
+          handleChange={this.handleExperienceChange}
+        />
+        <ExperienceAdd
+          isAdding={this.state.isAddingExp}
+          onSubmit={this.onSubmitExperience}
+          onAddClick={this.onAddClick}
+          handleChange={this.handleExperienceChange}
+          company={this.state.experience.addItem.company}
+          position={this.state.experience.addItem.position}
+          tasks={this.state.experience.addItem.tasks}
+          date={this.state.experience.addItem.date}
         />
       </div>
     );

@@ -23,10 +23,10 @@ class Experience extends Component {
               <h5 style={{ color: "grey" }}>{item.date}</h5>
             </div>
             <p>{item.tasks}</p>
-            <button onClick={(e) => onDeleteClick(e, item.id, "experience")}>
+            <button className="button delete-button" onClick={(e) => onDeleteClick(e, item.id, "experience")}>
               Delete
             </button>
-            <button onClick={(e) => onEditClick(e, item.id, "experience-edit")}>
+            <button className="button edit-button" onClick={(e) => onEditClick(e, item.id, "experience-edit")}>
               Edit
               {item.company.length > 15
                 ? item.company.slice(0, 15) + "..."

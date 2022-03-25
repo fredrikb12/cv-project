@@ -44,7 +44,11 @@ class GeneralInfo extends Component {
               value={phone}
             />
           </div>
-          <button type="submit" id="submit-general">
+          <button
+            className="button submit-button"
+            type="submit"
+            id="submit-general"
+          >
             Submit
           </button>
         </form>
@@ -56,6 +60,7 @@ class GeneralInfo extends Component {
           <h2 className="section-subheader">Email: {email}</h2>
           <h2 className="section-subheader">Phone Number: {phone}</h2>
           <button
+            className="button add-button"
             id="general-edit"
             onClick={(e) => onClick(e, null, "general-edit")}
           >

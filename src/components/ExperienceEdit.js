@@ -49,7 +49,7 @@ class ExperienceEdit extends Component {
             />
           </label>
           <div>
-            <button
+            <button className="button submit-button"
               id="experience-edit-submit-button"
               onClick={(e) => onSubmit(e, editItem.id, "experience-edit")}
             >

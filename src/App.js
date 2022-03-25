@@ -7,6 +7,8 @@ import EducationEdit from "./components/EducationEdit";
 import Experience from "./components/Experience";
 import ExperienceEdit from "./components/ExperienceEdit";
 import ExperienceAdd from "./components/ExperienceAdd";
+import ViewOutput from "./components/ViewOutput";
+import WorkingModeButton from "./components/WorkingModeButton";
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +57,7 @@ class App extends Component {
       isEditingExp: false,
       isAddingEdu: false,
       isAddingExp: false,
+      workingMode: true,
     };
 
     this.onSubmitGeneral = this.onSubmitGeneral.bind(this);
@@ -69,6 +72,13 @@ class App extends Component {
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
+
+  changeWorkingMode = () => {
+    const { workingMode } = this.state;
+    workingMode === true
+      ? this.setState({ workingMode: false })
+      : this.setState({ workingMode: true });
+  };
 
   onAddClick = (e) => {
     if (e.target.id === "education-add") {
@@ -92,6 +102,16 @@ class App extends Component {
       this.setState({ isEditingEdu: true });
       this.setState({ education: current });
     }
+    if (type === "experience-edit") {
+      const editedItem = this.state.experience.items.find(
+        (item) => item.id === id
+      );
+
+      const current = { ...this.state.experience };
+      current.editItem = editedItem;
+      this.setState({ isEditingExp: true });
+      this.setState({ experience: current });
+    }
   };
 
   onDeleteClick = (e, id, section) => {
@@ -104,6 +124,12 @@ class App extends Component {
       this.setState({ education: current });
     }
     if (section === "experience") {
+      const current = { ...this.state.experience };
+      const filteredItems = this.state.experience.items.filter(
+        (item) => item.id !== id
+      );
+      current.items = filteredItems;
+      this.setState({ experience: current });
     }
   };
 
@@ -136,7 +162,6 @@ class App extends Component {
       current.addItem = emptyItem;
       this.setState({ education: current });
       this.setState({ isAddingEdu: false });
-      this.setState({ isEditingEdu: false });
     }
   };
 
@@ -175,7 +200,6 @@ class App extends Component {
       current.addItem = emptyItem;
       this.setState({ experience: current });
       this.setState({ isAddingExp: false });
-      this.setState({ isEditingExp: false });
     }
   };
 
@@ -222,63 +246,85 @@ class App extends Component {
   };
 
   render() {
-    return (
-      <div id="main-container">
-        <GeneralInfo
-          handleChange={this.handleGeneralChange}
-          onSubmit={this.onSubmitGeneral}
-          onClick={this.onEditClick}
-          name={this.state.general.name}
-          email={this.state.general.email}
-          phone={this.state.general.phone}
-          isEditing={this.state.isEditingGen}
-        />
-        <Education
-          items={this.state.education.items}
-          editItem={this.state.education.editItem}
-          onDeleteClick={this.onDeleteClick}
-          onEditClick={this.onEditClick}
-        />
+    if (this.state.workingMode) {
+      return (
+        <div id="page-container">
+          <WorkingModeButton
+            onClick={this.changeWorkingMode}
+            workingMode={this.state.workingMode}
+          />
+          <div id="main-container">
+            <GeneralInfo
+              handleChange={this.handleGeneralChange}
+              onSubmit={this.onSubmitGeneral}
+              onClick={this.onEditClick}
+              name={this.state.general.name}
+              email={this.state.general.email}
+              phone={this.state.general.phone}
+              isEditing={this.state.isEditingGen}
+            />
+            <Education
+              items={this.state.education.items}
+              editItem={this.state.education.editItem}
+              onDeleteClick={this.onDeleteClick}
+              onEditClick={this.onEditClick}
+            />
+            <EducationEdit
+              editItem={this.state.education.editItem}
+              isEditing={this.state.isEditingEdu}
+              onSubmit={this.onSubmitEducation}
+              handleChange={this.handleEducationChange}
+            />
+            <EducationAdd
+              isAdding={this.state.isAddingEdu}
+              onSubmit={this.onSubmitEducation}
+              onAddClick={this.onAddClick}
+              handleChange={this.handleEducationChange}
+              school={this.state.education.addItem.school}
+              program={this.state.education.addItem.program}
+              date={this.state.education.addItem.date}
+            />
+            <Experience
+              items={this.state.experience.items}
+              editItem={this.state.experience.editItem}
+              onDeleteClick={this.onDeleteClick}
+              onEditClick={this.onEditClick}
+            />
+            <ExperienceEdit
+              editItem={this.state.experience.editItem}
+              isEditing={this.state.isEditingExp}
+              onSubmit={this.onSubmitExperience}
+              handleChange={this.handleExperienceChange}
+            />
+            <ExperienceAdd
+              isAdding={this.state.isAddingExp}
+              onSubmit={this.onSubmitExperience}
+              onAddClick={this.onAddClick}
+              handleChange={this.handleExperienceChange}
+              company={this.state.experience.addItem.company}
+              position={this.state.experience.addItem.position}
+              tasks={this.state.experience.addItem.tasks}
+              date={this.state.experience.addItem.date}
+            />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div id="page-container">
+          <WorkingModeButton
+            onClick={this.changeWorkingMode}
+            workingMode={this.state.workingMode}
+          />
 
-        <EducationEdit
-          editItem={this.state.education.editItem}
-          isEditing={this.state.isEditingEdu}
-          onSubmit={this.onSubmitEducation}
-          handleChange={this.handleEducationChange}
-        />
-        <EducationAdd
-          isAdding={this.state.isAddingEdu}
-          onSubmit={this.onSubmitEducation}
-          onAddClick={this.onAddClick}
-          handleChange={this.handleEducationChange}
-          school={this.state.education.addItem.school}
-          program={this.state.education.addItem.program}
-          date={this.state.education.addItem.date}
-        />
-        <Experience
-          items={this.state.experience.items}
-          editItem={this.state.experience.editItem}
-          onDeleteClick={this.onDeleteClick}
-          onEditClick={this.onEditClick}
-        />
-        <ExperienceEdit
-          editItem={this.state.experience.editItem}
-          isEditing={this.state.isEditingExp}
-          onSubmit={this.onSubmitExperience}
-          handleChange={this.handleExperienceChange}
-        />
-        <ExperienceAdd
-          isAdding={this.state.isAddingExp}
-          onSubmit={this.onSubmitExperience}
-          onAddClick={this.onAddClick}
-          handleChange={this.handleExperienceChange}
-          company={this.state.experience.addItem.company}
-          position={this.state.experience.addItem.position}
-          tasks={this.state.experience.addItem.tasks}
-          date={this.state.experience.addItem.date}
-        />
-      </div>
-    );
+          <ViewOutput
+            generalInfo={this.state.general}
+            educationItems={this.state.education.items}
+            experienceItems={this.state.experience.items}
+          />
+        </div>
+      );
+    }
   }
 }
 

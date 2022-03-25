@@ -18,17 +18,27 @@ code {
 }
 
 #root {
-  height: 100vh;
+}
+
+#page-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   background-color: rgb(180, 180, 180);
 }
 
 #main-container {
+  min-height: 100vh;
   background-color: #fffaf4;
-  width: 60%;
-  margin-top: 5%;
+  width: clamp(500px, 40%, 700px);
   overflow: auto;
+}
+
+#working-button-container{
+  display: flex;
+  justify-content: center;
+  padding: 15px;
 }
 
 .section-header {
@@ -38,6 +48,10 @@ code {
 }
 
 .button {
+  min-width: 100px;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 1.2rem;
 }
 
 .delete-button {

@@ -40,7 +40,7 @@ class EducationEdit extends Component {
             />
           </label>
           <div>
-            <button
+            <button className="button submit-button"
               id="education-edit-submit-button"
               onClick={(e) => onSubmit(e, editItem.id, "education-edit")}
             >

@@ -22,12 +22,20 @@ class Education extends Component {
               <h3>{item.program}</h3>
               <h5 style={{ color: "grey" }}>{item.date}</h5>
             </div>
-            <button onClick={(e) => onDeleteClick(e, item.id, "education")}>
+            <button
+              className="button delete-button"
+              onClick={(e) => onDeleteClick(e, item.id, "education")}
+            >
               Delete
             </button>
-            <button onClick={(e) => onEditClick(e, item.id, "education-edit")}>
+            <button
+              className="button edit-button"
+              onClick={(e) => onEditClick(e, item.id, "education-edit")}
+            >
               Edit{" "}
-              {item.school.length > 15 ? item.school.slice(0, 15) + "..." : item.school}
+              {item.school.length > 15
+                ? item.school.slice(0, 15) + "..."
+                : item.school}
             </button>
           </div>
         );

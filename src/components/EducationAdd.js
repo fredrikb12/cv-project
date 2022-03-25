@@ -54,7 +54,7 @@ class EducationAdd extends Component {
             />
           </label>
         </div>
-        <button
+        <button className="button submit-button"
           type="submit"
           id="education-submit"
           onClick={(e) => onSubmit(e, null, "education-submit")}
@@ -63,7 +63,7 @@ class EducationAdd extends Component {
         </button>
       </form>
     ) : (
-      <button id="education-add" onClick={(e) => onAddClick(e)}>
+      <button className="button add-button" id="education-add" onClick={(e) => onAddClick(e)}>
         Add Education
       </button>
     );

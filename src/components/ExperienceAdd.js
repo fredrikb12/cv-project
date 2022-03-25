@@ -67,7 +67,7 @@ class ExperienceAdd extends Component {
             />
           </label>
         </div>
-        <button
+        <button className="button submit-button"
           type="submit"
           id="experience-submit"
           onClick={(e) => onSubmit(e, null, "experience-submit")}
@@ -76,7 +76,7 @@ class ExperienceAdd extends Component {
         </button>
       </form>
     ) : (
-      <button id="experience-add" onClick={(e) => onAddClick(e)}>
+      <button className="button add-button" id="experience-add" onClick={(e) => onAddClick(e)}>
         Add Experience
       </button>
     );

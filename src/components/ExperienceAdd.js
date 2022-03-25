@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
+import Button from "./Button";
 
 class ExperienceAdd extends Component {
   constructor(props) {
@@ -67,7 +68,8 @@ class ExperienceAdd extends Component {
             />
           </label>
         </div>
-        <button className="button submit-button"
+        <button
+          className="button submit-button"
           type="submit"
           id="experience-submit"
           onClick={(e) => onSubmit(e, null, "experience-submit")}
@@ -76,9 +78,12 @@ class ExperienceAdd extends Component {
         </button>
       </form>
     ) : (
-      <button className="button add-button" id="experience-add" onClick={(e) => onAddClick(e)}>
-        Add Experience
-      </button>
+      <Button
+        classNames={"add-button"}
+        id={"experience-add"}
+        onClick={(e) => onAddClick(e)}
+        text={"Add Experience"}
+      />
     );
   }
 }

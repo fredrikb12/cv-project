@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
+import Button from "./Button";
 
 class EducationAdd extends Component {
   constructor(props) {
@@ -54,18 +55,21 @@ class EducationAdd extends Component {
             />
           </label>
         </div>
-        <button className="button submit-button"
-          type="submit"
-          id="education-submit"
+        <Button
+          type={"submit"}
+          id={"education-submit"}
+          classNames={"submit-button"}
           onClick={(e) => onSubmit(e, null, "education-submit")}
-        >
-          Submit
-        </button>
+          text={"Submit"}
+        />
       </form>
     ) : (
-      <button className="button add-button" id="education-add" onClick={(e) => onAddClick(e)}>
-        Add Education
-      </button>
+      <Button
+        classNames={"add-button"}
+        id={"education-add"}
+        onClick={(e) => onAddClick(e)}
+        text={"Add Education"}
+      />
     );
   }
 }

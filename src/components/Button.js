@@ -10,7 +10,12 @@ class Button extends Component {
     const { type, text, onClick, classNames, id } = this.props;
 
     return (
-      <button type={type} className={classNames} id={id} onClick={onClick}>
+      <button
+        type={type}
+        className={(classNames ?? "") + " button"}
+        id={id}
+        onClick={onClick}
+      >
         {text}
       </button>
     );

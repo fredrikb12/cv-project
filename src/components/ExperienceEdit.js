@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
+import Button from "./Button";
 
 class ExperienceEdit extends Component {
   constructor(props) {
@@ -49,12 +50,12 @@ class ExperienceEdit extends Component {
             />
           </label>
           <div>
-            <button className="button submit-button"
-              id="experience-edit-submit-button"
+            <Button
+              classNames={"submit-button"}
+              id={"experience-edit-submit-button"}
               onClick={(e) => onSubmit(e, editItem.id, "experience-edit")}
-            >
-              Finish Editing
-            </button>
+              text={"Finish Editing"}
+            />
           </div>
         </form>
       ) : null;

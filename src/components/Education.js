@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
+import Button from "./Button";
 
 class Education extends Component {
   constructor(props) {
@@ -17,26 +18,23 @@ class Education extends Component {
             key={item.id}
             style={{ borderBottom: "1px solid black", marginBottom: "20px" }}
           >
-            <h2>{item.school}</h2>
+            <h2 className="section-subheader">{item.school}</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <h3>{item.program}</h3>
               <h5 style={{ color: "grey" }}>{item.date}</h5>
             </div>
-            <button
-              className="button delete-button"
+            <Button
+              type={"Button"}
+              classNames={"delete-button"}
               onClick={(e) => onDeleteClick(e, item.id, "education")}
-            >
-              Delete
-            </button>
-            <button
-              className="button edit-button"
+              text={"Delete"}
+            />
+            <Button
+              type={"button"}
+              classNames={"edit-button"}
               onClick={(e) => onEditClick(e, item.id, "education-edit")}
-            >
-              Edit{" "}
-              {item.school.length > 15
-                ? item.school.slice(0, 15) + "..."
-                : item.school}
-            </button>
+              text={"Edit"}
+            />
           </div>
         );
       });

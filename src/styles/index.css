@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -33,18 +34,29 @@ code {
   background-color: #fffaf4;
   width: clamp(500px, 40%, 700px);
   overflow: auto;
+  padding: 10px 15px;
 }
 
-#working-button-container{
+#working-button-container {
   display: flex;
   justify-content: center;
   padding: 15px;
+}
+
+#main-container.output-container {
+  padding: 20px 25px;
 }
 
 .section-header {
   font-size: 2rem;
   font-weight: 900;
   color: #3a3a3a;
+  padding-bottom: 5px;
+}
+
+.section-subheader {
+  font-size: 1.5rem;
+  color: #3f111b;
 }
 
 .button {
@@ -52,16 +64,90 @@ code {
   text-align: center;
   padding: 5px 10px;
   font-size: 1.2rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  border: 1px solid #000000;
+  box-shadow: 2px 2px 5px 0 #616161;
+}
+
+.button:hover {
+  cursor: pointer;
 }
 
 .delete-button {
+  background-color: #ffb5b5;
+}
+
+.delete-button:hover {
+  background-color: #cf2a2a;
+  color: #ffffff;
 }
 
 .edit-button {
+  background-color: hsl(59, 100%, 80%);
+}
+
+.edit-button:hover {
+  background-color: hsl(59, 100%, 38%);
 }
 
 .submit-button {
+  background-color: hsl(214, 100%, 71%);
+  color: rgb(0, 0, 0);
+}
+
+.submit-button:hover {
+  background-color: hsl(214, 91%, 46%);
+  color: #fff;
 }
 
 .add-button {
+  background-color: hsl(96, 100%, 76%);
+}
+
+.add-button:hover {
+  background-color: hsl(96, 95%, 42%);
+}
+
+#working-mode-button {
+  background-color: hsl(283, 100%, 79%);
+}
+
+#working-mode-button:hover {
+  background-color: hsl(283, 74%, 52%);
+  color: rgb(255, 255, 255);
+  box-shadow: 5px 5px 6px 2px #585858;
+}
+
+.output-view-section {
+position: relative;
+margin-bottom: 20px;
+}
+
+.section-header.bottom-border{
+  margin-bottom: 10px;
+}
+
+.section-header.bottom-border::before{
+  position: absolute;
+  content: "";
+  width: 120px;
+  height: 4px;
+  background-color: rgb(76, 66, 78);
+  top: 2.1rem;
+}
+
+label {
+  display: flex;
+  width: 350px;
+  padding: 5px 0;
+  justify-content: space-between;
+}
+
+input {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #9c9c9c;
+  width: 250px;
 }

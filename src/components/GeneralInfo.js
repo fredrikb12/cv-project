@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from "react";
+import Button from "./Button";
 
 class GeneralInfo extends Component {
   constructor(props) {
@@ -7,16 +8,19 @@ class GeneralInfo extends Component {
   }
 
   render() {
-    const { handleChange, onSubmit, onClick, name, email, phone, isEditing } =
-      this.props;
-    if (isEditing) {
+    const {
+      handleChange,
+      onSubmit,
+      onClick,
+      name,
+      email,
+      phone,
+      isEditing,
+      workingMode,
+    } = this.props;
+    if (isEditing && workingMode) {
       return (
-        <form
-          id="general-form"
-          className="form"
-          onChange={handleChange}
-          onSubmit={onSubmit}
-        >
+        <form id="general-form" className="form">
           <div>
             <label htmlFor="name">Name:</label>
             <input
@@ -44,28 +48,46 @@ class GeneralInfo extends Component {
               value={phone}
             />
           </div>
-          <button
-            className="button submit-button"
-            type="submit"
-            id="submit-general"
-          >
-            Submit
-          </button>
+          <Button
+            type={"submit"}
+            classNames={"submit-button"}
+            id={"submit-general"}
+            onClick={onSubmit}
+            text={"Submit"}
+          />
         </form>
       );
-    } else {
+    } else if (workingMode && !isEditing) {
       return (
         <div className="general-info">
           <h1 className="section-header">Name: {name}</h1>
           <h2 className="section-subheader">Email: {email}</h2>
           <h2 className="section-subheader">Phone Number: {phone}</h2>
-          <button
-            className="button add-button"
-            id="general-edit"
+          <Button
+            classNames={"add-button"}
+            id={"general-edit"}
             onClick={(e) => onClick(e, null, "general-edit")}
+            text={"Edit General Info"}
+            type={"button"}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="general-info output-view-section">
+          <h1 style={{ textAlign: "center" }} className="section-header">
+            {name}
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "15px",
+            }}
           >
-            Edit General Info
-          </button>
+            <h2 className="section-subheader">{email}</h2>
+            <h2 className="section-subheader">{phone}</h2>
+          </div>
         </div>
       );
     }

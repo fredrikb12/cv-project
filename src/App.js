@@ -262,6 +262,7 @@ class App extends Component {
               email={this.state.general.email}
               phone={this.state.general.phone}
               isEditing={this.state.isEditingGen}
+              workingMode={this.state.workingMode}
             />
             <Education
               items={this.state.education.items}
@@ -321,6 +322,8 @@ class App extends Component {
             generalInfo={this.state.general}
             educationItems={this.state.education.items}
             experienceItems={this.state.experience.items}
+            workingMode={this.state.workingMode}
+            isEditing={false}
           />
         </div>
       );

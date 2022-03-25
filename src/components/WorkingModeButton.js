@@ -16,9 +16,9 @@ class WorkingModeButton extends Component {
       <div id="working-button-container">
         <Button
           text={text}
-          classNames={"button"}
           type="button"
           onClick={onClick}
+          id={"working-mode-button"}
         />
       </div>
     );

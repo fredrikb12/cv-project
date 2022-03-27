@@ -1,31 +1,23 @@
 /* eslint-disable no-useless-constructor */
-import React, { Component } from "react";
+import React from "react";
 import EducationView from "./EducationView";
 import ExperienceView from "./ExperienceView";
 import GeneralInfo from "./GeneralInfo";
 
-class ViewOutput extends Component {
-  constructor(props) {
-    super(props);
-  }
+function ViewOutput(props) {
+  return (
+    <div id="main-container" className="output-container">
+      <GeneralInfo
+        workingMode={props.workingMode}
+        name={props.generalInfo.name}
+        phone={props.generalInfo.phone}
+        email={props.generalInfo.email}
+      />
 
-  render() {
-    const { name, phone, email } = this.props.generalInfo;
-    return (
-      <div id="main-container" className="output-container">
-        <GeneralInfo
-          name={name}
-          email={email}
-          phone={phone}
-          isEditing={this.props.isEditing}
-          workingMode={this.props.workingMode}
-        />
-
-        <EducationView items={this.props.educationItems} />
-        <ExperienceView items={this.props.experienceItems} />
-      </div>
-    );
-  }
+      <EducationView items={props.educationItems} />
+      <ExperienceView items={props.experienceItems} />
+    </div>
+  );
 }
 
 export default ViewOutput;
